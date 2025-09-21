@@ -114,7 +114,7 @@ const isValid = computed(() => {
 const validateToken = async (token) => {
   try {
     const response = await AuthService.validateResetToken(token)
-    if (response.data.isValid) {
+    if (response.valid) {
       tokenValid.value = true
       tokenError.value = ''
     } else {

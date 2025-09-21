@@ -1,39 +1,40 @@
 import { apiClient } from './api-client';
+import { getUserUrl } from '@/config/env';
 
 class UserService {
-  async getProfile() {
+  async updatePassword(password) {
     try {
-      const response = await apiClient.get('/users/profile')
-      return response.data?.data?.user || {}
+      const response = await apiClient.post(getUserUrl('update'), {password: password})
+      return response.data
     } catch (error) {
-      console.error('Fehler beim Laden des Profils:', error)
-      throw error
+      console.error('Fehler beim Passwort-Update:', error)
+      return false
     }
   }
 
-  async updateProfile(userData) {
+  async updateUser(object) {
     try {
-      const response = await apiClient.put('/users/profile', userData)
+      const response = await apiClient.post(getUserUrl('update'), object)
       return response.data
     } catch (error) {
-      console.error('Fehler beim Aktualisieren des Profils:', error)
-      throw error
+      console.error('Fehler beim User-Update:', error)
+      return false
     }
   }
 
-  async changePassword(passwordData) {
+  updateData(object) {
+    return this.updateUser(object);
+  }
+
+  async list() {
     try {
-      const response = await apiClient.put('/users/profile', {
-        currentPassword: passwordData.currentPassword,
-        newPassword: passwordData.newPassword
-      })
+      const response = await apiClient.get(getUserUrl('list'))
       return response.data
     } catch (error) {
-      console.error('Fehler beim Ändern des Passworts:', error)
-      throw error
+      console.error('Fehler beim Laden der User-Liste:', error)
+      return []
     }
   }
 }
 
 export default new UserService();
-

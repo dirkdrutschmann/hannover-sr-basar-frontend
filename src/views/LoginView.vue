@@ -9,18 +9,18 @@
         
         <form @submit.prevent="handleLogin">
           <div class="mb-3">
-            <label for="username" class="form-label">Benutzername oder E-Mail</label>
+            <label for="email" class="form-label">E-Mail</label>
             <input
-              id="username"
-              v-model="user.username"
-              type="text"
+              id="email"
+              v-model="user.email"
+              type="email"
               class="form-control"
-              placeholder="Benutzername oder E-Mail-Adresse"
+              placeholder="ihre.email@beispiel.de"
               required
-              :class="{ 'is-invalid': errors.username }"
+              :class="{ 'is-invalid': errors.email }"
             />
-            <div v-if="errors.username" class="invalid-feedback">
-              {{ errors.username }}
+            <div v-if="errors.email" class="invalid-feedback">
+              {{ errors.email }}
             </div>
           </div>
           
@@ -77,12 +77,12 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const user = ref({
-  username: '',
+  email: '',
   password: ''
 })
 
 const errors = ref({
-  username: '',
+  email: '',
   password: ''
 })
 
@@ -98,11 +98,11 @@ onMounted(() => {
 })
 
 const validateForm = () => {
-  errors.value.username = ''
+  errors.value.email = ''
   errors.value.password = ''
   
-  if (!user.value.username) {
-    errors.value.username = 'Benutzername oder E-Mail ist erforderlich'
+  if (!user.value.email) {
+    errors.value.email = 'E-Mail ist erforderlich'
     return false
   }
   
@@ -141,8 +141,8 @@ const handleLogin = async () => {
 
 <style scoped>
 .login-container {
+  min-height: 100vh;
   display: flex;
-  flex: 1;
   align-items: center;
   justify-content: center;
   padding: 2rem;
