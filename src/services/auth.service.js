@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import { getAuthUrl } from '@/config/env';
+import { getAuthUrl, getUserUrl } from '@/config/env';
 
 class AuthService {
   async login(user) {
@@ -36,11 +36,21 @@ class AuthService {
 
   async delete(user) {
     try {
-      const response = await apiClient.delete(getAuthUrl('user/delete'), {
-        data: {
+      // Versuche zuerst DELETE, dann POST als Fallback
+      let response;
+      try {
+        console.log("DELETE USER", getUserUrl('delete'))
+        response = await apiClient.delete(getUserUrl('delete'), {
+          data: {
+            id: user.id
+          }
+        });
+      } catch (deleteError) {
+        response = await apiClient.post(getUserUrl('delete'), {
           id: user.id
-        }
-      })
+        });
+      }
+      
       return response.data
     } catch (error) {
       console.error('Lösch-Fehler:', error)
