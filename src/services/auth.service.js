@@ -36,8 +36,10 @@ class AuthService {
 
   async delete(user) {
     try {
-      const response = await apiClient.post(getAuthUrl('user'), {
-        id: user.id
+      const response = await apiClient.delete(getAuthUrl('user/delete'), {
+        data: {
+          id: user.id
+        }
       })
       return response.data
     } catch (error) {

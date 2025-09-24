@@ -96,7 +96,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="_u in filteredUsers" :key="_u._id">
+              <tr v-for="_u in filteredUsers" :key="_u.id">
                 <td>{{ _u.email }}</td>
                 <td>
                   <span class="club-badge me-1" v-for="club in _u.club" :key="club">
@@ -106,7 +106,7 @@
                 <td @click="editHandler(_u)" class="text-center">
                   <font-awesome-icon icon="fa-solid fa-pen-to-square" class="action-icon"/>
                 </td>
-                <td class="text-center text-danger" @click="remove(_u.email)">
+                <td class="text-center text-danger" @click="remove(_u)">
                   <font-awesome-icon icon="fa-solid fa-trash" class="action-icon"/>
                 </td>
               </tr>
@@ -217,9 +217,9 @@ const register = async () => {
   user.value = await UserService.list()
 }
 
-const remove = async (email) => {
-  if (confirm("Wirklich löschen ?")) {
-    await AuthService.delete({email: email})
+const remove = async (userToDelete) => {
+  if (confirm(`Wirklich den Benutzer "${userToDelete.email}" löschen?`)) {
+    await AuthService.delete({id: userToDelete.id})
     user.value = await UserService.list()
   }
 }
@@ -228,7 +228,7 @@ const editHandler = (_u) => {
   edit.value = true
   editClub.value = _u.club
   editEmail.value = _u.email
-  editId.value = _u._id
+  editId.value = _u.id
 }
 
 const save = async () => {
