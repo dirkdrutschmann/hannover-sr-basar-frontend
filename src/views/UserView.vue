@@ -188,7 +188,7 @@ import AuthService from "@/services/auth.service"
 import VueMultiselect from 'vue-multiselect'
 
 const user = ref([])
-const club = ref(null)
+const club = ref([])
 const email = ref("")
 const options = ref(['list', 'of', 'options'])
 const edit = ref(false)
@@ -215,8 +215,23 @@ const filteredUsers = computed(() => {
 })
 
 const register = async () => {
-  await AuthService.register({email: email.value, club: club.value})
-  user.value = await UserService.list()
+  try {
+    await AuthService.register({
+      email: email.value, 
+      password: 'temp123', // Temporäres Passwort, wird vom Backend generiert
+      club: club.value || []
+    })
+    user.value = await UserService.list()
+    
+    // Formular zurücksetzen
+    email.value = ""
+    club.value = []
+    
+    alert("Benutzer erfolgreich erstellt!")
+  } catch (error) {
+    console.error("Registrierungsfehler:", error)
+    alert("Fehler bei der Registrierung: " + (error.response?.data?.message || error.message))
+  }
 }
 
 const remove = async (userToDelete) => {

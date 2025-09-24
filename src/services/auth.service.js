@@ -23,9 +23,9 @@ class AuthService {
   async register(user) {
     try {
       const response = await apiClient.post(getAuthUrl('signup'), {
-        username: user.username,
         email: user.email,
-        password: user.password
+        password: user.password,
+        club: user.club || []
       })
       return response.data
     } catch (error) {
