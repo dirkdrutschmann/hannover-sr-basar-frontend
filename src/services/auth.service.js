@@ -39,7 +39,6 @@ class AuthService {
       // Versuche zuerst DELETE, dann POST als Fallback
       let response;
       try {
-        console.log("DELETE USER", getUserUrl('delete'))
         response = await apiClient.delete(getUserUrl('delete'), {
           data: {
             id: user.id

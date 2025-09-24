@@ -44,6 +44,7 @@
                 :limit-text="limitText"
                 :show-no-options="true"
                 :show-no-results="true"
+                :teleport="true"
                 key="1">
               </VueMultiselect>
             </div>
@@ -156,6 +157,7 @@
                   deselect-label="Drücke Enter zum Entfernen"
                   deselect-group-label="Drücke Enter zum Abwählen der Gruppe"
                   placeholder="Vereine auswählen..."
+                  :teleport="true"
                   key="2">
                 </VueMultiselect>
               </div>
